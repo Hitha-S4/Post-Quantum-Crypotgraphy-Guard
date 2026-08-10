@@ -1,0 +1,50 @@
+###################### Filebeat Configuration for Suricata + Kafka ######################
+
+# ============================== Filestream inputs =============================
+filebeat.inputs:
+- type: filestream
+  id: suricata-eve-json
+  enabled: true
+  paths:
+    - /tmp/suricata-logs/eve.json
+  
+  # Parse JSON logs
+  parsers:
+    - ndjson:
+        keys_under_root: true
+        overwrite_keys: true
+        add_error_key: true
+  
+  # Add custom fields
+  fields:
+    log_type: suricata
+  fields_under_root: true
+
+# ============================== Kafka Output ==================================
+output.kafka:
+  enabled: true
+  hosts: ["localhost:9092"]
+  topic: "suricata-events"
+  partition.round_robin:
+    reachable_only: false
+  required_acks: 1
+  compression: gzip
+  max_message_bytes: 1000000
+
+# ============================== Processors ====================================
+processors:
+  - add_host_metadata:
+      when.not.contains.tags: forwarded
+  - add_cloud_metadata: ~
+  - add_docker_metadata: ~
+
+# ============================== Logging =======================================
+logging.level: info
+logging.to_files: true
+logging.files:
+  path: /opt/homebrew/var/log/filebeat
+  name: filebeat
+  keepfiles: 7
+  permissions: 0644
+
+

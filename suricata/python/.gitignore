@@ -1,0 +1,8 @@
+*.pyc
+.cache
+build
+lib/
+scripts-*/
+suricata/config/defaults.py
+!suricata/config/defaults.py.in
+.DS_Store

@@ -1,0 +1,57 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+*.egg
+.Python
+build/
+dist/
+venv/
+env/
+.venv/
+.uv/
+
+# Node
+node_modules/
+dist/
+dist-ssr/
+*.local
+bun.lockb
+
+# Logs & data
+*.log
+logs/
+suricata/logs/
+*.tmp
+*.temp
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Testing & coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Build artifacts (Suricata compiled output)
+suricata/config.log
+suricata/config.status
+suricata/autom4te.cache/
+suricata/compile
+
+# Secrets
+*.pem
+*.key
+*.crt

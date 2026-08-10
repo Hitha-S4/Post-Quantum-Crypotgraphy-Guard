@@ -1,0 +1,137 @@
+# PQC (Post-Quantum Cryptography) TLS Enforcement Rules
+# These rules provide flexible control over PQC enforcement in TLS connections
+#
+# Usage:
+# 1. Enable global enforcement in suricata.yaml: stream.pqc.drop-non-pqc: yes
+# 2. Use these rules for fine-grained control and logging
+#
+# Rule Categories:
+# - Alert rules: Log non-PQC connections without dropping
+# - Drop rules: Actively drop non-PQC connections
+# - Pass rules: Allow specific non-PQC connections (exceptions)
+
+# ============================================================================
+# ALERT RULES - Log non-PQC connections for monitoring
+# ============================================================================
+
+# Alert on any classical (non-PQC) TLS connection
+alert tls any any -> any any (msg:"Non-PQC TLS connection detected"; \
+    flow:established,to_server; \
+    tls.pqc_posture:"CLASSICAL"; \
+    classtype:protocol-command-decode; \
+    sid:1000001; rev:1;)
+
+# Alert on classical TLS to specific sensitive servers
+alert tls any any -> $HOME_NET 443 (msg:"Non-PQC TLS to internal server"; \
+    flow:established,to_server; \
+    tls.pqc_posture:"CLASSICAL"; \
+    classtype:policy-violation; \
+    sid:1000002; rev:1;)
+
+# Alert on classical TLS from external sources
+alert tls $EXTERNAL_NET any -> $HOME_NET any (msg:"Non-PQC TLS from external source"; \
+    flow:established,to_server; \
+    tls.pqc_posture:"CLASSICAL"; \
+    classtype:policy-violation; \
+    sid:1000003; rev:1;)
+
+# ============================================================================
+# DROP RULES - Actively block non-PQC connections
+# ============================================================================
+
+# Drop all classical TLS connections (strict enforcement)
+# Uncomment to enable strict PQC-only mode
+#drop tls any any -> any any (msg:"Dropping non-PQC TLS connection"; \
+#    flow:established,to_server; \
+#    tls.pqc_posture:"CLASSICAL"; \
+#    classtype:policy-violation; \
+#    sid:1000010; rev:1;)
+
+# Drop classical TLS to specific high-security servers
+# Example: Drop non-PQC connections to financial services
+#drop tls any any -> [192.168.1.100,192.168.1.101] 443 (msg:"Dropping non-PQC TLS to financial server"; \
+#    flow:established,to_server; \
+#    tls.pqc_posture:"CLASSICAL"; \
+#    classtype:policy-violation; \
+#    sid:1000011; rev:1;)
+
+# Drop classical TLS from untrusted networks
+#drop tls !$HOME_NET any -> $HOME_NET any (msg:"Dropping non-PQC TLS from untrusted network"; \
+#    flow:established,to_server; \
+#    tls.pqc_posture:"CLASSICAL"; \
+#    classtype:policy-violation; \
+#    sid:1000012; rev:1;)
+
+# ============================================================================
+# PASS RULES - Allow specific non-PQC connections (exceptions)
+# ============================================================================
+
+# Allow classical TLS to legacy systems that don't support PQC
+# Example: Allow non-PQC to specific legacy server
+#pass tls any any -> 192.168.1.200 443 (msg:"Allowing non-PQC TLS to legacy system"; \
+#    flow:established,to_server; \
+#    tls.pqc_posture:"CLASSICAL"; \
+#    classtype:not-suspicious; \
+#    sid:1000020; rev:1;)
+
+# Allow classical TLS for specific applications
+# Example: Allow non-PQC for monitoring tools
+#pass tls any any -> any any (msg:"Allowing non-PQC TLS for monitoring"; \
+#    flow:established,to_server; \
+#    tls.pqc_posture:"CLASSICAL"; \
+#    content:"monitoring-agent"; http_user_agent; \
+#    classtype:not-suspicious; \
+#    sid:1000021; rev:1;)
+
+# ============================================================================
+# POSITIVE DETECTION - Log PQC connections
+# ============================================================================
+
+# Alert on PQC Pure connections (informational)
+alert tls any any -> any any (msg:"PQC Pure TLS connection detected"; \
+    flow:established,to_server; \
+    tls.pqc_posture:"PQC_PURE"; \
+    classtype:protocol-command-decode; \
+    sid:1000030; rev:1;)
+
+# Alert on PQC Hybrid connections (informational)
+alert tls any any -> any any (msg:"PQC Hybrid TLS connection detected"; \
+    flow:established,to_server; \
+    tls.pqc_posture:"PQC_HYBRID"; \
+    classtype:protocol-command-decode; \
+    sid:1000031; rev:1;)
+
+# Alert on Encrypted Client Hello (ECH) connections
+alert tls any any -> any any (msg:"ECH Protected TLS connection detected"; \
+    flow:established,to_server; \
+    tls.pqc_posture:"ECH_PROTECTED"; \
+    classtype:protocol-command-decode; \
+    sid:1000032; rev:1;)
+
+# ============================================================================
+# DEPLOYMENT STRATEGIES
+# ============================================================================
+#
+# Strategy 1: Monitoring Phase (Recommended First Step)
+# - Enable only alert rules (sid:1000001-1000003)
+# - Set stream.pqc.drop-non-pqc: no in suricata.yaml
+# - Monitor logs to understand PQC adoption in your environment
+#
+# Strategy 2: Gradual Enforcement
+# - Enable alert rules for all traffic
+# - Enable drop rules for specific high-security zones
+# - Add pass rules for known legacy systems
+# - Set stream.pqc.drop-non-pqc: no (use rules for selective dropping)
+#
+# Strategy 3: Strict Enforcement
+# - Set stream.pqc.drop-non-pqc: yes in suricata.yaml
+# - Add pass rules for necessary exceptions
+# - Monitor dropped connections and adjust exceptions
+#
+# Strategy 4: Hybrid Approach
+# - Set stream.pqc.drop-non-pqc: no
+# - Enable drop rules for external traffic
+# - Enable alert rules for internal traffic
+# - Gradually expand drop rules as PQC adoption increases
+#
+# ============================================================================
