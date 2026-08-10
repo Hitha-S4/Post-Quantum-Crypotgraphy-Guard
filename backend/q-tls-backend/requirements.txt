@@ -1,0 +1,24 @@
+# Core FastAPI dependencies
+fastapi>=0.115.0
+uvicorn[standard]>=0.32.0
+
+# Data validation
+pydantic>=2.9.0
+pydantic-settings>=2.6.0
+
+# Kafka integration
+kafka-python>=2.0.2
+
+# MongoDB database
+motor>=3.3.0
+pymongo>=4.6.0
+
+# Network analysis
+scapy>=2.6.0
+
+# Cryptography
+cryptography>=44.0.0
+
+# Utilities
+python-dotenv>=1.0.1
+httpx>=0.28.0

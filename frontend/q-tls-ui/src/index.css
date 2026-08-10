@@ -1,0 +1,223 @@
+/* IBM Plex Sans font import */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* IBM Carbon-inspired Design System for TLS PQC Dashboard */
+@layer base {
+  :root {
+    /* Carbon Gray Scale */
+    --background: 225 15% 6%;
+    --foreground: 210 17% 95%;
+    
+    --card: 225 15% 10%;
+    --card-foreground: 210 17% 95%;
+    
+    --popover: 225 15% 12%;
+    --popover-foreground: 210 17% 95%;
+    
+    /* Carbon Blue - Primary */
+    --primary: 199 100% 50%;
+    --primary-foreground: 225 15% 6%;
+    
+    /* Carbon Cool Gray */
+    --secondary: 225 12% 18%;
+    --secondary-foreground: 210 17% 90%;
+    
+    --muted: 225 12% 15%;
+    --muted-foreground: 210 10% 55%;
+    
+    /* Carbon Cyan Accent */
+    --accent: 180 100% 42%;
+    --accent-foreground: 225 15% 6%;
+    
+    /* Status Colors */
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 210 40% 98%;
+    
+    --success: 145 80% 42%;
+    --success-foreground: 225 15% 6%;
+    
+    --warning: 38 92% 50%;
+    --warning-foreground: 225 15% 6%;
+    
+    --border: 225 12% 20%;
+    --input: 225 12% 18%;
+    --ring: 199 100% 50%;
+    
+    --radius: 0px;
+    
+    /* Dashboard specific */
+    --pqc-safe: 145 80% 42%;
+    --pqc-vulnerable: 0 72% 51%;
+    --pqc-unknown: 38 92% 50%;
+    
+    /* Sidebar */
+    --sidebar-background: 225 15% 8%;
+    --sidebar-foreground: 210 17% 90%;
+    --sidebar-primary: 199 100% 50%;
+    --sidebar-primary-foreground: 225 15% 6%;
+    --sidebar-accent: 225 12% 15%;
+    --sidebar-accent-foreground: 210 17% 90%;
+    --sidebar-border: 225 12% 18%;
+    --sidebar-ring: 199 100% 50%;
+  }
+
+  .dark {
+    --background: 225 15% 6%;
+    --foreground: 210 17% 95%;
+    --card: 225 15% 10%;
+    --card-foreground: 210 17% 95%;
+    --popover: 225 15% 12%;
+    --popover-foreground: 210 17% 95%;
+    --primary: 199 100% 50%;
+    --primary-foreground: 225 15% 6%;
+    --secondary: 225 12% 18%;
+    --secondary-foreground: 210 17% 90%;
+    --muted: 225 12% 15%;
+    --muted-foreground: 210 10% 55%;
+    --accent: 180 100% 42%;
+    --accent-foreground: 225 15% 6%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 225 12% 20%;
+    --input: 225 12% 18%;
+    --ring: 199 100% 50%;
+    --sidebar-background: 225 15% 8%;
+    --sidebar-foreground: 210 17% 90%;
+    --sidebar-primary: 199 100% 50%;
+    --sidebar-primary-foreground: 225 15% 6%;
+    --sidebar-accent: 225 12% 15%;
+    --sidebar-accent-foreground: 210 17% 90%;
+    --sidebar-border: 225 12% 18%;
+    --sidebar-ring: 199 100% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+}
+
+@layer components {
+  /* Carbon-style components */
+  .carbon-tile {
+    @apply bg-card border border-border p-4;
+  }
+  
+  .carbon-tile-clickable {
+    @apply carbon-tile cursor-pointer transition-colors hover:bg-secondary;
+  }
+  
+  .carbon-header {
+    @apply bg-secondary border-b border-border h-12 flex items-center px-4;
+  }
+  
+  .carbon-tag {
+    @apply inline-flex items-center px-2 py-0.5 text-xs font-medium;
+  }
+  
+  .carbon-tag-pqc-safe {
+    @apply carbon-tag bg-[hsl(var(--success))] text-[hsl(var(--success-foreground))];
+  }
+  
+  .carbon-tag-pqc-vulnerable {
+    @apply carbon-tag bg-[hsl(var(--destructive))] text-white;
+  }
+  
+  .carbon-tag-pqc-unknown {
+    @apply carbon-tag bg-[hsl(var(--warning))] text-[hsl(var(--warning-foreground))];
+  }
+  
+  .carbon-tag-protocol {
+    @apply carbon-tag bg-primary text-primary-foreground;
+  }
+  
+  .carbon-data-table {
+    @apply w-full border-collapse;
+  }
+  
+  .carbon-data-table th {
+    @apply text-left text-xs font-semibold uppercase tracking-wide text-muted-foreground bg-secondary px-4 py-3 border-b border-border;
+  }
+  
+  .carbon-data-table td {
+    @apply px-4 py-3 text-sm border-b border-border font-mono;
+  }
+  
+  .carbon-data-table tr:hover {
+    @apply bg-muted/50;
+  }
+  
+  .carbon-stat-tile {
+    @apply carbon-tile flex flex-col gap-1;
+  }
+  
+  .carbon-stat-value {
+    @apply text-3xl font-light tracking-tight text-foreground;
+  }
+  
+  .carbon-stat-label {
+    @apply text-xs uppercase tracking-wide text-muted-foreground;
+  }
+  
+  .carbon-stat-helper {
+    @apply text-xs text-muted-foreground mt-2;
+  }
+  
+  /* Scrollbar styling */
+  .carbon-scrollbar::-webkit-scrollbar {
+    @apply w-2;
+  }
+  
+  .carbon-scrollbar::-webkit-scrollbar-track {
+    @apply bg-background;
+  }
+  
+  .carbon-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-border rounded-none;
+  }
+  
+  .carbon-scrollbar::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted-foreground;
+  }
+  
+  /* Live indicator pulse */
+  .pulse-live {
+    @apply relative;
+  }
+  
+  .pulse-live::before {
+    content: '';
+    @apply absolute w-2 h-2 rounded-full bg-success animate-ping;
+  }
+  
+  .pulse-live::after {
+    content: '';
+    @apply absolute w-2 h-2 rounded-full bg-success;
+  }
+}
+
+/* Carbon chart styling */
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: hsl(var(--border));
+}
+
+.recharts-text {
+  fill: hsl(var(--muted-foreground));
+  font-size: 10px;
+}
+
+/* Override Carbon default styles */
+.cds--content {
+  background: hsl(var(--background)) !important;
+}

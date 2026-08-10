@@ -1,0 +1,46 @@
+# Modern Agent Framework Dependencies
+# Install with: pip install -r requirements-agents.txt
+
+# LangChain Core & LangGraph
+langgraph>=0.2.28
+langchain>=0.3.0
+langchain-core>=0.3.0
+langchain-community>=0.3.0
+langchain-openai>=0.2.0
+langchain-anthropic>=0.2.0
+langchain-ollama>=0.2.0
+
+# Vector Database & Embeddings
+chromadb>=0.5.0
+sentence-transformers>=3.0.0
+langchain-chroma>=0.1.0
+
+# Observability & Monitoring
+langsmith>=0.1.0
+langfuse>=2.0.0
+opentelemetry-api>=1.20.0
+opentelemetry-sdk>=1.20.0
+opentelemetry-instrumentation-fastapi>=0.41b0
+
+# Streaming & Real-time
+sse-starlette>=2.0.0
+websockets>=12.0
+
+# Distributed State & Task Queue
+redis>=5.0.0
+celery>=5.3.0
+flower>=2.0.0  # Celery monitoring
+
+# Agent Protocol & Communication
+# Note: agent-protocol is not yet stable, using custom implementation
+pydantic>=2.9.0
+httpx>=0.28.0
+
+# Additional ML/AI Tools
+tiktoken>=0.7.0  # Token counting
+tenacity>=8.2.0  # Retry logic
+instructor>=1.0.0  # Structured outputs
+
+# Development & Testing
+pytest-asyncio>=0.26.0
+pytest-mock>=3.14.0
