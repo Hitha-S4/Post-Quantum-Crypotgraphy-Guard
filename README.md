@@ -287,4 +287,4 @@ Key environment variables in [`backend/q-tls-backend/.env.sample`](backend/q-tls
 
 ## License
 
-Suricata is licensed under the [GNU GPL v2](suricata/LICENSE). Custom PQC additions and all other code in this repository are released under the MIT License — see [`LICENSE`](LICENSE) for details.
+Suricata is licensed under the [GNU GPL v2](suricata/LICENSE). 
